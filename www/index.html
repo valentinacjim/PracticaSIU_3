@@ -1,0 +1,32 @@
+<html>
+    <head>
+        <script src="https://cdn.socket.io/socket.io-1.0.0.js"></script>
+        <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+            <script type="text/javascript"src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+        <link rel="stylesheet" href="index.css">
+    </head>
+    <body>
+      <div class="container">
+      
+      <div>
+        <ol>
+          <li><a href="computer/computer.html">computer/computer.html</a> Aplicación para aplicación </a></li>
+           <li><a href="mobile/mobile.html">mobile/mobile.html</a> Aplicación para móvil</li>
+        </ol>
+               
+      </div>
+        <div id="qrcode"></div>
+      </div>
+      <script>
+        const qrcode = new QRCode("qrcode", {
+          text: "localhost:5500/mobile/mobile.html",
+          width: 256,
+          height: 256,
+          colorDark: "#000000",
+          colorLight: "#ffffff",
+          correctLevel: QRCode.CorrectLevel.H
+        });
+      </script>
+    </body>
+</html>

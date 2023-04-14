@@ -18,6 +18,9 @@
 
     i{
         color: var(--light);
+        margin-left: 9%;
+        margin-top: 25%;
+        font-size: 25em;
     }
 
     .modo{

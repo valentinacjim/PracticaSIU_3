@@ -1,94 +1,108 @@
-const socket = io();
+// const socket = io();
 
-let currMode = "mando";
+var currMode;
 let accelerometer;
 let absOrientation;
 
-async function toggleModes() {
+// console.log(document.body);
+let mando = document.querySelector("#mando");
+let temporizador = document.querySelector("#temporizador");
+let ajustes = document.querySelector("#ajustes");
+
+async function toggleModes (){
+  console.log(currMode);
   switch (currMode) {
+     case undefined:
+        currMode = "mando";
     case "mando":
-        currMode = "control";
-        document.querySelector("#mando").style.display = "none";
-        document.querySelector("#temporizador").style.display = "none";
-        document.querySelector("#control").style.display = "block";
-    case "control":
+        // console.log(document.querySelector("#mando").style.display);
+        mando.style.display = "none";
+        temporizador.style.display = "none";
+        ajustes.style.display = "block";
+        currMode = "ajustes";
+        break;
+    case "ajustes":
         currMode = "temporizador";
-        document.querySelector("#mando").style.display = "none";
-        document.querySelector("#temporizador").style.display = "block";
-        document.querySelector("#control").style.display = "none";
+        mando.style.display = "none";
+        temporizador.style.display = "block";
+        ajustes.style.display = "none";
+        break;
     case "temporizador":
         currMode = "mando";
-        document.querySelector("#mando").style.display = "block";
-        document.querySelector("#temporizador").style.display = "none";
-        document.querySelector("#control").style.display = "none";
+        mando.style.display = "block";
+        temporizador.style.display = "none";
+        ajustes.style.display = "none";
+        break;
     }
-  document.documentElement.requestFullscreen();
-  await screen.orientation.lock("portrait");
-  socket.emit("CURRENT_MODE", currMode);
-  if (accelerometer) accelerometer.start();
-  if (absOrientation) absOrientation.start();
+  console.log(currMode, "final");
+  // document.documentElement.requestFullscreen();
+  // await screen.orientation.lock("portrait");
+  // socket.emit("CURRENT_MODE", currMode);
+  // if (accelerometer) accelerometer.start();
+  // if (absOrientation) absOrientation.start();
 } 
-
-document.body.addEventListener("click", toggleModes);
-
-
-if ('Accelerometer' in window) {
-  try {
-    accelerometer = new Accelerometer({ frequency: 10 });
-    accelerometer.onerror = (event) => {
-      // Errores en tiempo de ejecución
-      if (event.error.name === 'NotAllowedError') {
-        alert('Permission to access sensor was denied.');
-      } else if (event.error.name === 'NotReadableError') {
-        alert('Cannot connect to the sensor.');
-      }
-    };
-    accelerometer.onreading = (e) => {
-      socket.emit("ACC_DATA", { x: accelerometer.x, y: accelerometer.y, z: accelerometer.z });
-    };
+mando.addEventListener("click", toggleModes);
+temporizador.addEventListener("click", toggleModes);
+ajustes.addEventListener("click", toggleModes);
 
 
-  } catch (error) {
-    // Error en la creación del objeto
-    if (error.name === 'SecurityError') {
-      alert('Sensor construction was blocked by the Permissions Policy.');
-    } else if (error.name === 'ReferenceError') {
-      alert('Sensor is not supported by the User Agent.');
-    } else {
-      throw error;
-    }
-  }
-}
+// if ('Accelerometer' in window) {
+//   try {
+//     accelerometer = new Accelerometer({ frequency: 10 });
+//     accelerometer.onerror = (event) => {
+//       // Errores en tiempo de ejecución
+//       if (event.error.name === 'NotAllowedError') {
+//         alert('Permission to access sensor was denied.');
+//       } else if (event.error.name === 'NotReadableError') {
+//         alert('Cannot connect to the sensor.');
+//       }
+//     };
+//     accelerometer.onreading = (e) => {
+//       socket.emit("ACC_DATA", { x: accelerometer.x, y: accelerometer.y, z: accelerometer.z });
+//     };
 
 
-if ('AbsoluteOrientationSensor' in window) {
-  try {
-    absOrientation = new AbsoluteOrientationSensor({ frequency: 10 });
+//   } catch (error) {
+//     // Error en la creación del objeto
+//     if (error.name === 'SecurityError') {
+//       alert('Sensor construction was blocked by the Permissions Policy.');
+//     } else if (error.name === 'ReferenceError') {
+//       alert('Sensor is not supported by the User Agent.');
+//     } else {
+//       throw error;
+//     }
+//   }
+// }
 
-    absOrientation.onreading = (e) => {
-      const quat = e.target.quaternion;
-      const angles = toEulerRollPitchYaw(quat);
-      socket.emit("ORIENTATION_DATA", { roll: angles.roll, pitch: angles.pitch, yaw: angles.yaw});
-    };
+
+// if ('AbsoluteOrientationSensor' in window) {
+//   try {
+//     absOrientation = new AbsoluteOrientationSensor({ frequency: 10 });
+
+//     absOrientation.onreading = (e) => {
+//       const quat = e.target.quaternion;
+//       const angles = toEulerRollPitchYaw(quat);
+//       socket.emit("ORIENTATION_DATA", { roll: angles.roll, pitch: angles.pitch, yaw: angles.yaw});
+//     };
 
 
-  } catch (err) {
-    console.log(err);
-  }
-}
+//   } catch (err) {
+//     console.log(err);
+//   }
+// }
 
-function toEulerRollPitchYaw(q) {
-  const sinr_cosp = 2 * (q[3] * q[0] - q[1] * q[2]);
-  const cosr_cosp = 1 - 2 * (q[0] * q[0] + q[1] * q[1]);
-  const roll = Math.atan2(sinr_cosp, cosr_cosp);
+// function toEulerRollPitchYaw(q) {
+//   const sinr_cosp = 2 * (q[3] * q[0] - q[1] * q[2]);
+//   const cosr_cosp = 1 - 2 * (q[0] * q[0] + q[1] * q[1]);
+//   const roll = Math.atan2(sinr_cosp, cosr_cosp);
 
-  const sinp = Math.sqrt(1 + 2 * (q[3] * q[1] - q[0] * q[2]));
-  const cosp = Math.sqrt(1 - 2 * (q[3] * q[1] + q[0] * q[2]));
-  const pitch = 2 * Math.atan2(sinp, cosp) - Math.PI / 2;
+//   const sinp = Math.sqrt(1 + 2 * (q[3] * q[1] - q[0] * q[2]));
+//   const cosp = Math.sqrt(1 - 2 * (q[3] * q[1] + q[0] * q[2]));
+//   const pitch = 2 * Math.atan2(sinp, cosp) - Math.PI / 2;
 
-  const siny_cosp = 2 * (q[3] * q[2] + q[0] * q[1]);
-  const cosy_cosp = 1 - 2 * (q[1] * q[1] + q[2] * q[2]);
-  const yaw = Math.atan2(siny_cosp, cosy_cosp);
+//   const siny_cosp = 2 * (q[3] * q[2] + q[0] * q[1]);
+//   const cosy_cosp = 1 - 2 * (q[1] * q[1] + q[2] * q[2]);
+//   const yaw = Math.atan2(siny_cosp, cosy_cosp);
 
-  return { roll, pitch, yaw };
-}
+//   return { roll, pitch, yaw };
+// }
