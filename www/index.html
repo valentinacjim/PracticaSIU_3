@@ -1,8 +1,8 @@
 <html>
     <head>
-        <script type="text/javascript" src="https://cdn.socket.io/4.6.1/socket.io.js"></script>
+      <script src="../node_modules/socket.io/client-dist/socket.io.js"></script>
     
-            <!-- <script type="text/javascript"src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script> -->
+            <script type="text/javascript"src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
         <title>Movie Clover</title>
         <link rel="stylesheet" href="index.css">
     </head>
@@ -20,7 +20,7 @@
       </div>
       <script>
         const qrcode = new QRCode("qrcode", {
-          text: "localhost:5500/mobile/mobile.html",
+          text: "http://localhost:5500/www/mobile/mobile.html",
           width: 256,
           height: 256,
           colorDark: "#000000",

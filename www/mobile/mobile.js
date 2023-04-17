@@ -1,4 +1,4 @@
-const socket = io();
+const socket = io("http://localhost:5500");
 
 var currMode;
 let accelerometer;
