@@ -17,7 +17,7 @@
     line-height: 1.4;
   }
   
-  img {
+  video {
     max-width: 100%;
   }
   
@@ -52,12 +52,12 @@
     width: 100%;
     max-height: 100%;
     
-    padding-left: 50px;
+    padding-left: 100px;
     /* top: 0;   */
   }
   
   .CloverLogo img {  
-    height: 40px;     
+    height: 45px;     
   }
   
   #logo {
@@ -120,7 +120,7 @@
     transform: scale(1.2);
   }
   
-  .box img {
+  .box video {
     border-radius: 2px;
   }
   
