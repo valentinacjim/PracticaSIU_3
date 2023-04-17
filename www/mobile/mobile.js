@@ -48,7 +48,7 @@ ajustes.addEventListener("click", toggleModes);
 
  if ('Accelerometer' in window) {
    try {
-     accelerometer = new Accelerometer({ frequency: 10 });
+     accelerometer = new Accelerometer({ frequency: 5 });
      accelerometer.onerror = (event) => {
        // Errores en tiempo de ejecución
        if (event.error.name === 'NotAllowedError') {
@@ -77,7 +77,7 @@ ajustes.addEventListener("click", toggleModes);
 
  if ('AbsoluteOrientationSensor' in window) {
    try {
-     absOrientation = new AbsoluteOrientationSensor({ frequency: 10 });
+     absOrientation = new AbsoluteOrientationSensor({ frequency: 5 });
 
      absOrientation.onreading = (e) => {
        const quat = e.target.quaternion;
