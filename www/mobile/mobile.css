@@ -20,7 +20,7 @@
         color: var(--light);
         margin-left: 9%;
         margin-top: 25%;
-        font-size: 25em;
+        /* font-size: 25em; */
     }
 
     .modo{
@@ -28,10 +28,17 @@
         height: 100%;
     }
 
+    #mando{
+        font-size: 25em;
+    }
+
     #ajustes{
         display: none;
+        margin-top: 0.5em;
+        font-size: 20em;
     }
 
     #temporizador{
         display: none;
+        font-size: 25em;
     }
