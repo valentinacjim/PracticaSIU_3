@@ -1,4 +1,4 @@
-const socket = io("http://localhost:5500");
+const socket = io("http://localhost:3000");
 
 var currMode;
 let accelerometer;
@@ -58,6 +58,7 @@ ajustes.addEventListener("click", toggleModes);
        }
      };
      accelerometer.onreading = (e) => {
+      console.log("reading acc")
        socket.emit("ACC_DATA", { x: accelerometer.x, y: accelerometer.y, z: accelerometer.z });
      };
 
