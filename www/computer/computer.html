@@ -185,19 +185,49 @@
   <div class="player">
     <div class="video-container">
       <div class="video-controls">
+         <!-- Botón de pantalla completa
+         <i id="icono_pantalla" class="fa-solid fa-expand"></i>
+         <i id="icono_pantalla1" class="fa-solid fa-compress"></i> -->
         <i id="close" class="fas fa-times fa-2x"></i>
-        <i id ="back" class="fa-solid fa-backward-step"></i>
-        <i id ="next" class="fa-solid fa-forward-step"></i>
+        <i id ="back" class="fa-solid fa-backward"></i>
+        <i id ="next" class="fa-solid fa-forward"></i>
         <i id="play" class="fas fa-play-circle fa-2x "></i>
         <i id="pause" class="fas fa-pause-circle fa-2x "></i>
-        <!-- <i id="mute" class="fas fa-volume-mute fa-2x "></i>
-        <i id="unmute" class="fas fa-volume-up fa-2x"></i> -->
-        <input id="volume" type="range" min="0" max="1" step="0.1" value="1">
-        <input id="progress" type="range" min="0" max="100" step="1" value="0">
-        <span id="time">00:00</span>
-        <span id="duration">00:00</span>
-      
+        <p class="pro">0:00</p>
+        <p class="dur">0:00</p>
+          
+        <div id= "barra">
+          
+          <div class = "progreso">
+            <span></span>
+          </div>
+          
+          
+        </div>
       </div>
+      <div class="video-options">
+          <i id="close1" class="fas fa-times fa-2x"></i>
+          <!-- Botón de volumen-->
+          <i id="icono_volumen" class="fa-solid fa-volume-high"></i>
+          <div class= "barra_volumen">
+            <input type="range" max ='1' min="0" step = '0.01' class = 'volume'>
+          </div>
+
+          <!-- Botón de brillo-->
+          <i id="icono_brillo" class="fa-solid fa-sun"></i>
+          <div class= "barra_brillo">
+            <input type="range" max ='1' min="0" step = '0.01' class = 'brightness'>
+          </div>
+
+          <!-- Botón de contraste-->
+          <i id="icono_contraste" class="fa-solid fa-circle-half-stroke"></i>
+          <div class= "barra_contraste">
+            <input type="range" max ='1' min="0" step = '0.01' class = 'contrast'>
+          </div>
+       
+
+      </div>
+      
       <video id="video" src="../../images/computer/juegos2_zelda.mp4"></video>
     </div>
     
