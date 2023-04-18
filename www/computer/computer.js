@@ -9,7 +9,7 @@ socket.on("connect", () => {
 );
 
 
-function player(video) {
+async function player(video) {
     document.querySelector(".wrapper").style.display = "none";
     document.querySelector(".player").style.display = "block";
     document.querySelector("#video").src = video;
