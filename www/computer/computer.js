@@ -13,5 +13,5 @@ async function player(video) {
     document.querySelector(".wrapper").style.display = "none";
     document.querySelector(".player").style.display = "block";
     document.querySelector("#video").src = video;
-    document.querySelector("#video").play();
+    // document.querySelector("#video").play();
 }
