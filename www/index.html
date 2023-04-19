@@ -1,32 +1,50 @@
 <html>
-    <head>
-      <script src="../node_modules/socket.io/client-dist/socket.io.js"></script>
-    
-            <script type="text/javascript"src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-        <title>Movie Clover</title>
-        <link rel="stylesheet" href="index.css">
-    </head>
-    <body>
-      <div class="container">
-      
-      <div>
-        <ol>
-          <li><a href="computer/computer.html">computer/computer.html</a> Aplicación para vídeo </a></li>
-           <li><a href="mobile/mobile.html">mobile/mobile.html</a> Aplicación para móvil</li>
-        </ol>
-               
+
+<head>
+  <title>Movie Clover</title>
+  <link rel="stylesheet" href="index.css">
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script>
+    const goTo = name => {
+      window.location.href = `${name}/${name}.html`
+    }
+  </script>
+</head>
+
+<body>
+  <header>
+    <div class="CloverLogo">
+      <a href="#home"><img id="logo" src="../images/soundclover_logo.png" alt="Logo Image"></a>
+    </div>
+  </header>
+  <div style="display: flex;justify-content: center;">
+    <div class="container" style="margin:0 20px;">
+      <div class="des"><label>Please select the page type to visit.</label></div>
+      <div class="c-content">
+        <div class="c-item">
+          <img class="c-item-pic pointer" onclick="goTo('mobile')" src="../images/index/mb.png" />
+          <div class="c-item-txt pointer" onclick="goTo('mobile')">Mobile</div>
+        </div>
+        <div class="c-item">
+          <img class="c-item-pic pointer" onclick="goTo('computer')" src="../images/index/cp.png" />
+          <div class="c-item-txt pointer" onclick="goTo('computer')">Computer</div>
+        </div>
       </div>
-        <div id="qrcode"></div>
-      </div>
-      <script>
-        const qrcode = new QRCode("qrcode", {
-          text: "http://localhost:5500/www/mobile/mobile.html",
-          width: 256,
-          height: 256,
-          colorDark: "#000000",
-          colorLight: "#ffffff",
-          correctLevel: QRCode.CorrectLevel.H
-        });
-      </script>
-    </body>
+    </div>
+    <div style="margin:0 20px;display: flex;align-items: center;">
+      <div style="margin-top: 80px;" id="qrcode"></div>
+    </div>
+  </div>
+  <script>
+    const qrcode = new QRCode("qrcode", {
+      text: "http://localhost:5500/www/mobile/mobile.html",
+      width: 180,
+      height: 180,
+      colorDark: "#000000",
+      colorLight: "#ffffff",
+      correctLevel: QRCode.CorrectLevel.H
+    });
+  </script>
+</body>
+
 </html>

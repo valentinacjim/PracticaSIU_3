@@ -50,6 +50,10 @@ io.on('connection', (socket) => {
   
 });
 
+app.listen(5501, () => {
+  console.log(`Server start in port : 5501`)
+})
+
 server.listen(3000, () => {
   console.log("Server listening...");
 });
