@@ -17,8 +17,8 @@
       <a href="#home"><img id="logo" src="../images/soundclover_logo.png" alt="Logo Image"></a>
     </div>
   </header>
-  <div style="display: flex;justify-content: center;">
-    <div class="container" style="margin:0 20px;">
+  <div class="inicio">
+    <div class="container">
       <div class="des"><label>Please select the page type to visit.</label></div>
       <div class="c-content">
         <div class="c-item">
@@ -31,15 +31,15 @@
         </div>
       </div>
     </div>
-    <div style="margin:0 20px;display: flex;align-items: center;">
-      <div style="margin-top: 80px;" id="qrcode"></div>
+    <div class="container">
+      <div id="qrcode"></div>
     </div>
   </div>
   <script>
     const qrcode = new QRCode("qrcode", {
       text: "http://localhost:5500/www/mobile/mobile.html",
-      width: 180,
-      height: 180,
+      width: 300,
+      height: 300,
       colorDark: "#000000",
       colorLight: "#ffffff",
       correctLevel: QRCode.CorrectLevel.H

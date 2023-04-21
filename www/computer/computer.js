@@ -55,16 +55,22 @@ function fullscreen() {
     document.querySelector("#video").requestFullscreen();
 }
 
+var timeout;
 
-function view() {
-    // console.log("view");
+document.querySelector(".video-container").addEventListener("mousemove", function(event) {
+    
+    clearTimeout(timeout);
     document.querySelector(".video-controls").style.display = "flex";
     document.querySelector(".video-container").style.cursor = "default";
-    setTimeout(() => {
+    
+    timeout = setTimeout(function() {
         document.querySelector(".video-controls").style.display = "none";
         document.querySelector(".video-container").style.cursor = "none";
-    }, 2500);
-}
+    }, 1000);
+
+});
+
+
 
 close_video.addEventListener("click", close);
 back_icon.addEventListener("click", back);
@@ -87,7 +93,7 @@ async function player(video) {
     document.querySelector("#video").src = video;
     document.querySelector("#video").play();
     setTimeout(() => {
-        if(document.querySelector("#video").paused == false){
+        if(document.querySelector(".video-controls").style.display == "flex"){
         document.querySelector(".video-controls").style.display = "none";
         document.querySelector(".video-container").style.cursor = "none";
         }

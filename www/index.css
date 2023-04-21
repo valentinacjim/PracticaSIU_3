@@ -1,8 +1,20 @@
+.inicio{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-content: center;
+
+}
+
 .container {
   display: flex;
   align-items: center;
   flex-direction: column;
   justify-content: center;
+  margin: 0 20px;
+}
+
+#qrcode{
+  margin-top: 80px;
 }
 
 #logo {
@@ -16,8 +28,8 @@
   align-items: center;
 }
 .des{
-  margin: 68px 0px;
-  font-size: 22px;
+  margin: 68px 0;
+  font-size: 35px;
   font-weight: bold;
 }
 .pointer{
@@ -33,7 +45,7 @@
 }
 
 .c-item-pic {
-  width: 100px;
+  width: 150px;
 }
 
 .c-item-txt {
