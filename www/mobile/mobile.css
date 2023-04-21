@@ -1,5 +1,6 @@
 :root {
     --primary: #000;
+    --secondary: #6d00a2;
     --light: #F3F3F3;
     --dark: 	#686868;
   }
@@ -23,38 +24,60 @@
         /* font-size: 25em; */
     }
 
+    .inicio{
+        width: 100%;
+        height: 100%;
+    }
+
+    .inicio img{
+        width: 100vw;
+        height: 40vh;
+        margin-top: 20vh;
+        margin-left: 2vw;
+    }
+
+    .inicio h1{
+        font-size: 10vw;
+        margin-left: 20vw;
+        margin-top: 2vh;
+        color: var(--secondary);
+        
+    }
+    
+
     .modo{
+        display: none;
         width: 100%;
         height: 50%;
 
     }
 
     #mando{
-        font-size: 25em;
-        margin-left: 9%;
+        font-size: 100vw;
+        margin-left: 14vw;
         margin-top: 45%;
 
     }
 
     #ajustes{
         display: none;
-        margin-top: 0.5em;
-        font-size: 20em;
-        margin-left: 0.075em;
+        font-size: 90vw;
+        margin-left: 6vw;
         margin-top: 55%;
     }
 
     #temporizador{
         display: none;
-        font-size: 25em;
-        margin-left: 9%;
+        font-size: 100vw;
+        margin-left: 14vw;
         margin-top: 45%;
     }
     button{
         background-color: var(--primary);
         color: var(--light);
         border: none;
-        font-size: 5em;
+        font-size: 18.5vw;
         margin-left: 17.5vw;
         margin-top: 0.5em;
+        display:none;
     }

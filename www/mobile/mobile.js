@@ -8,39 +8,55 @@ let absOrientation;
 let mando = document.querySelector("#mando");
 let temporizador = document.querySelector("#temporizador");
 let ajustes = document.querySelector("#ajustes");
+let inicio_div = document.querySelector(".inicio");
+console.log(inicio_div.style);
+
+
+async function inicio (){
+  console.log("inicio");
+  document.documentElement.requestFullscreen();
+  await screen.orientation.lock("portrait");
+  inicio_div.style.display = "none";
+  document.querySelector(".modo").style.display = "block";
+  currMode = "mando";
+  socket.emit("CURRENT_MODE", currMode);
+  if (accelerometer) accelerometer.start();
+  if (absOrientation) absOrientation.start();
+}
 
 async function toggleModes (){
   console.log(currMode);
   switch (currMode) {
-     case undefined:
-        currMode = "mando";
     case "mando":
         // console.log(document.querySelector("#mando").style.display);
         mando.style.display = "none";
         temporizador.style.display = "none";
         ajustes.style.display = "block";
         currMode = "ajustes";
+        document.querySelector("#calibrar").style.display = "block";
+
         break;
     case "ajustes":
         currMode = "temporizador";
         mando.style.display = "none";
         temporizador.style.display = "block";
         ajustes.style.display = "none";
+        document.querySelector("#calibrar").style.display = "none";
+
         break;
     case "temporizador":
         currMode = "mando";
         mando.style.display = "block";
         temporizador.style.display = "none";
         ajustes.style.display = "none";
+        document.querySelector("#calibrar").style.display = "none";
+
         break;
     }
-  console.log(currMode, "final");
-  document.documentElement.requestFullscreen();
-  await screen.orientation.lock("portrait");
   socket.emit("CURRENT_MODE", currMode);
-  if (accelerometer) accelerometer.start();
-  if (absOrientation) absOrientation.start();
 } 
+
+inicio_div.addEventListener("click", inicio);
 mando.addEventListener("click", toggleModes);
 temporizador.addEventListener("click", toggleModes);
 ajustes.addEventListener("click", toggleModes);
