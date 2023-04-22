@@ -15,6 +15,10 @@ var lastX = 0;
 var lastY = 0;
 var lastZ = 0;
 
+var baseRoll;
+var basePitch;
+var baseYaw;
+
 var shaking = false;
 var timer = null;
 
@@ -36,7 +40,6 @@ io.on('connection', (socket) => {
   });
 
   socket.on("ACC_DATA", (data) => {
-    //console.log(data);
     let new_data;
     new_data = eval_Position(data);
     if (visSocket) visSocket.emit("ACC_DATA", new_data);
@@ -56,8 +59,19 @@ io.on('connection', (socket) => {
   });
   socket.on("CALIBRAR", (data) => {
     console.log(data.roll, data.pitch, data.yaw);
-  });
+    baseRoll = data.roll;
+    basePitch = data.pitch;
+    baseYaw = data.yaw;
   
+  });
+
+  setInterval(() => {
+  if (shaking === true) {
+    if (visSocket) visSocket.emit("ACTION", "shake"); 
+    return
+  }
+  if (visSocket) visSocket.emit("ACTION", last_gest);
+}, 500);
 });
 
 server.listen(3000, () => {
@@ -76,26 +90,36 @@ function eval_Position(position) {
 
 
 function eval_Gesture(angles) {
-  
-  if (angles.pitch < 110 && angles.pitch > 70) {
+
+  if ((baseRoll === undefined) || (basePitch === undefined) || (baseYaw === undefined))  {
+    baseRoll = angles.roll;
+    basePitch = angles.pitch;
+    baseYaw = angles.yaw;
+  }
+
+  let roll = angles.roll - baseRoll;
+  let pitch = angles.pitch - basePitch;
+  let yaw = angles.yaw - baseYaw;
+  console.log(roll, pitch, yaw);
+  if (pitch > 275 && pitch < 355) {
     last_gest = "pitch up";
-    return { roll: angles.roll, pitch : angles.pitch, yaw : angles.yaw, text : last_gest}
+    return { roll: roll, pitch : pitch, yaw : yaw, text : last_gest}
   }
-  if (angles.pitch > -170 && angles.pitch < -135) {
+  if (pitch > 25 && pitch < 80) {
     last_gest = "pitch down";
-    return { roll: angles.roll, pitch : angles.pitch, yaw : angles.yaw, text : last_gest}
+    return { roll: roll, pitch : pitch, yaw : yaw, text : last_gest}
   }
-  if (angles.roll < 90 && angles.roll > 0) {
+  if (roll > -84 && roll < -40) {
     last_gest = "roll left";
-    return { roll: angles.roll, pitch : angles.pitch, yaw : angles.yaw, text : last_gest}
+    return { roll: roll, pitch : pitch, yaw : yaw, text : last_gest}
   }
-  if (angles.roll > -130 && angles.roll < 0) {
+  if (roll > -315 && roll < -265) {
     last_gest = "roll right";
-    return { roll: angles.roll, pitch : angles.pitch, yaw : angles.yaw, text : last_gest}
+    return { roll: roll, pitch : pitch, yaw : yaw, text : last_gest}
   }
 
   last_gest = "resting";
-  return { roll: angles.roll, pitch : angles.pitch, yaw : angles.yaw, text : last_gest} 
+  return { roll: roll, pitch : pitch, yaw : yaw, text : last_gest} 
 }
 
 function shakeCheck (acc){

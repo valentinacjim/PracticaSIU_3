@@ -57,11 +57,20 @@ inicio_div.addEventListener("click", inicio);
 mando.addEventListener("click", toggleModes);
 temporizador.addEventListener("click", toggleModes);
 ajustes.addEventListener("click", toggleModes);
+document.querySelector("#calibrar").addEventListener("click", calibrar);
 
+function calibrar() {
+ let quat = new Float32Array(4);
+ quat = absOrientation.quaternion;
+ const angles = toEulerRollPitchYaw(quat);
+//  console.log(angles.roll, angles.pitch, angles.yaw)
+ socket.emit("CALIBRAR",{roll: angles.roll, pitch: angles.pitch, yaw: angles.yaw});
+}
+   
 
  if ('Accelerometer' in window) {
    try {
-     accelerometer = new Accelerometer({ frequency: 5 });
+     accelerometer = new Accelerometer({ frequency: 2 });
      accelerometer.onerror = (event) => {
        // Errores en tiempo de ejecución
        if (event.error.name === 'NotAllowedError') {
@@ -71,7 +80,7 @@ ajustes.addEventListener("click", toggleModes);
        }
      };
      accelerometer.onreading = (e) => {
-      console.log("reading acc")
+      // console.log("reading acc")
        socket.emit("ACC_DATA", { x: accelerometer.x, y: accelerometer.y, z: accelerometer.z });
      };
 
@@ -91,7 +100,7 @@ ajustes.addEventListener("click", toggleModes);
 
  if ('AbsoluteOrientationSensor' in window) {
    try {
-     absOrientation = new AbsoluteOrientationSensor({ frequency: 5 });
+     absOrientation = new AbsoluteOrientationSensor({ frequency: 2 });
 
      absOrientation.onreading = (e) => {
        const quat = e.target.quaternion;
@@ -106,17 +115,14 @@ ajustes.addEventListener("click", toggleModes);
  }
 
  function toEulerRollPitchYaw(q) {
-   const sinr_cosp = 2 * (q[3] * q[0] - q[1] * q[2]);
-   const cosr_cosp = 1 - 2 * (q[0] * q[0] + q[1] * q[1]);
-   const roll = Math.atan2(sinr_cosp, cosr_cosp);
 
-   const sinp = Math.sqrt(1 + 2 * (q[3] * q[1] - q[0] * q[2]));
-   const cosp = Math.sqrt(1 - 2 * (q[3] * q[1] + q[0] * q[2]));
-   const pitch = 2 * Math.atan2(sinp, cosp) - Math.PI / 2;
+  const roll  = Math.atan2(2 * q[1] * q[3] + 2 * q[0] * q[2], 1 - 2 * [1] * q[1] - 2 * q[2] * q[2]) * 180 / Math.PI;
+  const pitch = Math.atan2(2 * q[0] * q[3] + 2 * q[1] * q[2], 1 - 2 * q[0] * q[0] - 2 * q[2] * q[2]) * 180 / Math.PI;
+  
 
-   const siny_cosp = 2 * (q[3] * q[2] + q[0] * q[1]);
-   const cosy_cosp = 1 - 2 * (q[1] * q[1] + q[2] * q[2]);
-   const yaw = Math.atan2(siny_cosp, cosy_cosp);
+  const siny_cosp = 2 * (q[3] * q[2] + q[0] * q[1]);
+  const cosy_cosp = 1 - 2 * (q[1] * q[1] + q[2] * q[2]);
+  const yaw = Math.atan2(siny_cosp, cosy_cosp) * 180 / Math.PI;
 
    return { roll, pitch, yaw };
  }
