@@ -58,7 +58,7 @@ io.on('connection', (socket) => {
     if (visSocket) visSocket.emit("CURRENT_MODE", data);
   });
   socket.on("CALIBRAR", (data) => {
-    console.log(data.roll, data.pitch, data.yaw);
+    // console.log(data.roll, data.pitch, data.yaw);
     baseRoll = data.roll;
     basePitch = data.pitch;
     baseYaw = data.yaw;

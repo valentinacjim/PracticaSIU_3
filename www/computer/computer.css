@@ -397,7 +397,7 @@
   display: none;
 }
 
-.barra_volumen, #icono_volumen, .barra_brillo, #icono_brillo, .barra_contraste, #icono_contraste{
+.barra_volumen, #icono_volume, .barra_brillo, #icono_brightness, .barra_contraste, #icono_contrast{
   position:absolute;
   top:80px;
   right:50px;
@@ -440,19 +440,19 @@
   -webkit-appearance: none;
 }
 
-#icono_volumen{
+#icono_volume{
   left: -23vw;
   top: 8vh;
   font-size: 3em;
 }
 
-#icono_brillo{
+#icono_brightness{
   left: -23vw;
   top: 25vh;
   font-size: 3em;
 }
 
-#icono_contraste{
+#icono_contrast{
   left: -23vw;
   top: 42vh;
   font-size: 3em;

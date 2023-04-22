@@ -6,9 +6,15 @@ var mode;
 var location_to = "home";
 var locations = ["home", "music", "games", "animation"];
 // var current_location = 0;
-var videos = ["home1", "home2", "home3", "home4", "home5", "home6"];
+var videos = [["home1", "home2", "home3", "home4", "home5", "home6"], 
+              ["music1", "music2", "music3", "music4", "music5", "music6"], 
+              ["games1", "games2", "games3", "games4", "games5", "games6"], 
+              ["animation1", "animation2", "animation3", "animation4", "animation5", "animation6"]];
+var ajustes = ["volume", "brightness", "contrast"];
+var ajustes_icon = ["icono_volume", "icono_brightness", "icono_contrast"];
 var select;
 var ajuste;
+var ajuste_icon;
 var select_img;
 var brillo = 1;
 var contraste = 1;
@@ -35,9 +41,12 @@ socket.on("connect", () => {
 window.onload = function () {
     select = document.querySelector("#home1");
     select.className = "selector";
-    // console.log(select.id);
+    console.log(select.id);
     select_img = document.querySelector("#home1 img");
-    ajuste = document.querySelector(".brightness");
+    ajuste = document.querySelector(".volume");
+    ajuste_icon = document.querySelector("#icono_volume");
+    ajuste_icon.style.color = "#6d00a2";
+    
 };
 setInterval(() => {
     // console.log(action);
@@ -114,7 +123,77 @@ setInterval(() => {
     } else if(mode=="ajustes"){
         settings();
         switch (action) {
-            // case ":
+            case "pitch up":
+                console.log("pitch up");
+                for (let i = 0; i < ajustes.length; i++) {
+                    if (ajuste.className == ajustes[i]) {
+                        ajuste_icon.style.color = "white";
+                        // console.log(ajuste.className);
+                        if (ajuste.className == "volume") {
+                            ajuste = document.querySelector(".contrast");
+                            ajuste_icon = document.querySelector("#icono_contrast");
+                            ajuste_icon.style.color = "#6d00a2";
+                        } else {
+                            ajuste = document.querySelector("." + ajustes[i - 1]);
+                            ajuste_icon = document.querySelector("#" + ajustes_icon[i-1]);
+                            ajuste_icon.style.color = "#6d00a2";
+                        }
+                        
+                        break;
+                    }
+                }
+                break;
+            case "pitch down":
+                console.log("pitch down");
+                for (let i = 0; i < ajustes.length; i++) {
+                    if (ajuste.className == ajustes[i]) {
+                        ajuste_icon.style.color = "white";
+                        // console.log(ajuste.className);
+                        if (ajuste.className == "contrast") {
+                            ajuste = document.querySelector(".volume");
+                            ajuste_icon = document.querySelector("#icono_volume");
+                            ajuste_icon.style.color = "#6d00a2";
+                        } else {
+                            ajuste = document.querySelector("." + ajustes[i + 1]);
+                            ajuste_icon = document.querySelector("#" + ajustes_icon[i+1]);
+                            ajuste_icon.style.color = "#6d00a2";
+                        }
+                        
+                        
+                        break;
+                    }
+                    
+                }
+                break;
+            case "roll left":
+                console.log("roll left");
+                switch (ajuste.className) {
+                    case "volume":
+                        volume_down();
+                        break;
+                    case "brightness":
+                        brightness_down();
+                        break;
+                    case "contrast":
+                        contrast_down();
+                        break;
+                }
+                break;
+            case "roll right":
+                console.log("roll right");
+                console.log(ajuste.className);
+                switch (ajuste.className) {
+                    case "volume":
+                        volume_up();
+                        break;
+                    case "brightness":
+                        brightness_up();
+                        break;
+                    case "contrast":
+                        contrast_up();
+                        break;
+                }
+
             
         }
     } else if(mode=="temporizador"){
@@ -182,27 +261,37 @@ function close_settings() {
 }
 
 function volume_up() {
-    document.querySelector("#video").volume = +0.1;
+    document.querySelector("#video").volume += 0.1;
+    document.querySelector(".volume").setAttribute("value", document.querySelector("#video").volume);
 }
 
 function volume_down() {
-    document.querySelector("#video").volume = -0.1;
-}
+    document.querySelector("#video").volume -= 0.1;
+    document.querySelector(".volume").setAttribute("value", document.querySelector("#video").volume);
+}   
 
 function brightness_up() {
-    document.querySelector("#video").style.filter = "brightness(" + (brillo+1) + ")";
+    brillo += 0.1;
+    document.querySelector("#video").style.filter = "brightness(" + (brillo) + ")";
+    document.querySelector(".brightness").setAttribute("value", brillo);
 }
 
 function brightness_down() {
-    document.querySelector("#video").style.filter = "brightness(" + (brillo-1) + ")";
+    brillo -= 0.1;
+    document.querySelector("#video").style.filter = "brightness(" + (brillo) + ")";
+    document.querySelector(".brightness").setAttribute("value", brillo);
 }
 
 function contrast_up() {
-    document.querySelector("#video").style.filter = "contrast(" + (contraste+1) + ")";
+    contraste += 0.1;
+    document.querySelector("#video").style.filter = "contrast(" + (contraste) + ")";
+    document.querySelector(".contrast").setAttribute("value", contraste);
 }
 
 function contrast_down() {
-    document.querySelector("#video").style.filter = "contrast(" + (contraste-1) + ")";
+    contraste -= 0.1;
+    document.querySelector("#video").style.filter = "contrast(" + (contraste) + ")";
+    document.querySelector(".contrast").setAttribute("value", contraste);
 }
 
 function section_navegate_down(){
@@ -218,12 +307,19 @@ function section_navegate_down(){
         break;
         } 
     }
-    // console.log(location);
+    // console.log(location_to);
     location.hash = "#"+location_to;
+    select.className = "thumbnail";
+    select = document.getElementById(location_to+"1");
+    
+    select.className = "selector";
+    select_img = document.querySelector(".selector img");
+    // console.log(select_img);
     // console.log(location.hash)
 }
 
 function section_navegate_up(){
+    console.log(select);
     for (let i = 0; i < locations.length; i++) {
         if(locations[i] == location_to){ //music
             if (i == 0){
@@ -235,34 +331,49 @@ function section_navegate_up(){
         }
     }
     location.hash = "#"+location_to;
+    console.log(location_to)
+    select.className = "thumbnail";
+    select = document.getElementById(location_to+"1");
+    
+    select.className = "selector";
+    select_img = document.querySelector(".selector img");
+    console.log(select_img);
 }
 
 function section_navigate_left(){
     let nest_select = "";
+
     for (let i = 0; i < videos.length; i++) {
-        if(videos[i] == select.id){ //home2
-            if (i == 0){
-                nest_select = videos[videos.length-1];
-                
-            }else{
-                nest_select = videos[i-1]; //home1
+        for (let j = 0; j < videos[i].length; j++) {
+            if(videos[i][j] == select.id){ //home2
+                if (j == 0){
+                    nest_select = videos[i][videos[i].length-1];
+                    
+                }else{
+                    nest_select = videos[i][j-1]; //home1
+                }
             }
         }
     }
     select.className = "thumbnail";
+    console.log(nest_select);
     select = document.getElementById(nest_select);
     select.className = "selector";
+    select_img = document.querySelector(".selector img");
+    console.log(select_img);
 }
 
 function section_navigate_right(){
     let nest_select = "";
     for (let i = 0; i < videos.length; i++) {
-        if(videos[i] == select.id){ //home2
-            if (i == videos.length-1){
-                nest_select = videos[0];
-                
-            }else{
-                nest_select = videos[i+1]; //home1
+        for (let j = 0; j < videos[i].length; j++) {
+            if(videos[i][j] == select.id){ //home2
+                if (j == videos[i].length-1){
+                    nest_select = videos[i][0];
+                    
+                }else{
+                    nest_select = videos[i][j+1]; //home1
+                }
             }
         }
     }
