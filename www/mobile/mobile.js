@@ -9,11 +9,10 @@ let mando = document.querySelector("#mando");
 let temporizador = document.querySelector("#temporizador");
 let ajustes = document.querySelector("#ajustes");
 let inicio_div = document.querySelector(".inicio");
-console.log(inicio_div.style);
+let calibrar_btn = document.querySelector("#calibrar");
 
 
 async function inicio (){
-  console.log("inicio");
   document.documentElement.requestFullscreen();
   await screen.orientation.lock("portrait");
   inicio_div.style.display = "none";
@@ -25,15 +24,13 @@ async function inicio (){
 }
 
 async function toggleModes (){
-  console.log(currMode);
   switch (currMode) {
     case "mando":
-        // console.log(document.querySelector("#mando").style.display);
         mando.style.display = "none";
         temporizador.style.display = "none";
         ajustes.style.display = "block";
         currMode = "ajustes";
-        document.querySelector("#calibrar").style.display = "block";
+        calibrar_btn.style.display = "block";
 
         break;
     case "ajustes":
@@ -41,7 +38,7 @@ async function toggleModes (){
         mando.style.display = "none";
         temporizador.style.display = "block";
         ajustes.style.display = "none";
-        document.querySelector("#calibrar").style.display = "none";
+        calibrar_btn.style.display = "none";
 
         break;
     case "temporizador":
@@ -49,7 +46,7 @@ async function toggleModes (){
         mando.style.display = "block";
         temporizador.style.display = "none";
         ajustes.style.display = "none";
-        document.querySelector("#calibrar").style.display = "none";
+        calibrar_btn.style.display = "none";
 
         break;
     }

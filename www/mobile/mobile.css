@@ -2,7 +2,7 @@
     --primary: #000;
     --secondary: #6d00a2;
     --light: #F3F3F3;
-    --dark: 	#686868;
+    --dark: 	#212121;
   }
 
     html, body {
@@ -73,11 +73,20 @@
         margin-top: 45%;
     }
     button{
-        background-color: var(--primary);
+        background-color: var(--dark);
         color: var(--light);
         border: none;
         font-size: 18.5vw;
         margin-left: 17.5vw;
         margin-top: 0.5em;
+        border-radius: 3.5vh;
         display:none;
+        box-shadow: 0 0 1vh 0.1vh var(--light);
     }
+
+    button:active{
+        box-shadow:  4px 4px 6px 0 rgba(255,255,255,.3),
+              -4px -4px 6px 0 rgba(116, 125, 136, .2), 
+             -4px -4px 6px 0 rgba(255,255,255,.2),
+             4px 4px 6px 0 rgba(0, 0, 0, .2);
+      }
