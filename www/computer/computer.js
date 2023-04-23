@@ -277,37 +277,49 @@ function close_settings() { // cerrar ajustes
 }
 
 function volume_up() { // subir volumen
+    if (document.querySelector("#video").volume < 1){
     document.querySelector("#video").volume += 0.1;
     document.querySelector(".volume").setAttribute("value", document.querySelector("#video").volume);
+    }
 }
 
 function volume_down() { // bajar volumen
+    if (document.querySelector("#video").volume > 0){
     document.querySelector("#video").volume -= 0.1;
     document.querySelector(".volume").setAttribute("value", document.querySelector("#video").volume);
-}   
+    }
+}
 
 function brightness_up() { // subir brillo
+    if (brillo < 1){
     brillo += 0.1;
     document.querySelector("#video").style.filter = "brightness(" + (brillo) + ")";
     document.querySelector(".brightness").setAttribute("value", brillo);
+    }
 }
 
 function brightness_down() { // bajar brillo
+    if (brillo > 0){
     brillo -= 0.1;
     document.querySelector("#video").style.filter = "brightness(" + (brillo) + ")";
     document.querySelector(".brightness").setAttribute("value", brillo);
+    }
 }
 
 function contrast_up() { // subir contraste
+    if (contraste < 1){
     contraste += 0.1;
     document.querySelector("#video").style.filter = "contrast(" + (contraste) + ")";
     document.querySelector(".contrast").setAttribute("value", contraste);
+    }
 }
 
 function contrast_down() { // bajar contraste
+    if (contraste > 0){
     contraste -= 0.1;
     document.querySelector("#video").style.filter = "contrast(" + (contraste) + ")";
     document.querySelector(".contrast").setAttribute("value", contraste);
+    }
 }
 
 function section_navegate_down(){ //navegacion entre secciones hacia abajo
@@ -434,6 +446,7 @@ async function player(video) { // reproducir video
     document.querySelector(".player").style.display = "block";
     document.querySelector("#video").src = video;
     document.querySelector("#video").play();
+    document.querySelector("#video").volume = 0.5;
     setTimeout(() => { // mostrar controles
         if(document.querySelector(".video-controls").style.display == "flex"){
         document.querySelector(".video-controls").style.display = "none";
