@@ -185,6 +185,8 @@
   <!--PLAYER-->
   <div class="player">
     <div class="video-container">
+
+      <!--VIDEO CONTROLS-->
       <div class="video-controls">
          
         <i id="close" class="fa-solid fa-times fa-2x"></i>
@@ -193,40 +195,38 @@
         <i id="play" class="fa-solid fa-play-circle fa-2x "></i>
         <i id="pause" class="fa-solid fa-pause-circle fa-2x "></i>
         <i id="settings" class="fa-solid fa-cog fa-2x"></i>
-        
-        <!-- Botón de pantalla completa-->
-         <i id="icono_pantalla" class="fa-solid fa-expand"></i>
-
+        <i id="icono_pantalla" class="fa-solid fa-expand"></i>
         <i id="like" class="fa-regular fa-heart"></i>
-
 
         <p class="pro">0:00</p>
         <p class="dur">0:00</p>
           
+        <!-- PROGRESS BAR -->
         <div id= "barra">
-          
           <div class = "progreso">
             <span></span>
           </div>
-          
-          
         </div>
+
       </div>
+
+      <!--VIDEO SETTINGS -->
       <div class="video-options">
           <i id="close1" class="fas fa-times fa-2x"></i>
-          <!-- Botón de volumen-->
+
+          <!-- VOLUME -->
           <i id="icono_volume" class="fa-solid fa-volume-high"></i>
           <div class= "barra_volumen">
             <input type="range" max ='1' min="0" step = '0.01' class = 'volume'>
           </div>
 
-          <!-- Botón de brillo-->
+          <!-- BRIGHTNESS-->
           <i id="icono_brightness" class="fa-solid fa-sun"></i>
           <div class= "barra_brillo">
             <input type="range" max ='2' min="0" step = '0.01' class = 'brightness'>
           </div>
 
-          <!-- Botón de contraste-->
+          <!-- CONTRAST -->
           <i id="icono_contrast" class="fa-solid fa-circle-half-stroke"></i>
           <div class= "barra_contraste">
             <input type="range" max ='2' min="0" step = '0.01' class = 'contrast'>
@@ -238,7 +238,9 @@
     </div>
     
   </div>
+  <!--END OF PLAYER-->
 
+  <!--TIMER-->
   <div class="timer">
     <i class="fa-solid fa-times"></i>
     <i class="fa-solid fa-circle"></i>
@@ -248,6 +250,7 @@
     <i class="fa-solid fa-caret-right" id="up"></i>
     <i class="fa-solid fa-caret-left" id="down"></i>
   </div>
+  <!--END OF TIMER-->
 </body>
 <script src = "computer.js"></script>
 </html>

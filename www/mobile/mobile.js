@@ -4,7 +4,6 @@ var currMode;
 let accelerometer;
 let absOrientation;
 
-// console.log(document.body);
 let mando = document.querySelector("#mando");
 let temporizador = document.querySelector("#temporizador");
 let ajustes = document.querySelector("#ajustes");
@@ -23,7 +22,7 @@ async function inicio (){
   if (absOrientation) absOrientation.start();
 }
 
-async function toggleModes (){
+async function toggleModes (){ 
   switch (currMode) {
     case "mando":
         mando.style.display = "none";
@@ -31,8 +30,8 @@ async function toggleModes (){
         ajustes.style.display = "block";
         currMode = "ajustes";
         calibrar_btn.style.display = "block";
-
         break;
+
     case "ajustes":
         currMode = "temporizador";
         mando.style.display = "none";
@@ -59,11 +58,10 @@ temporizador.addEventListener("click", toggleModes);
 ajustes.addEventListener("click", toggleModes);
 document.querySelector("#calibrar").addEventListener("click", calibrar);
 
-function calibrar() {
+function calibrar() { 
  let quat = new Float32Array(4);
  quat = absOrientation.quaternion;
  const angles = toEulerRollPitchYaw(quat);
-//  console.log(angles.roll, angles.pitch, angles.yaw)
  socket.emit("CALIBRAR",{roll: angles.roll, pitch: angles.pitch, yaw: angles.yaw});
 }
    
@@ -80,7 +78,6 @@ function calibrar() {
        }
      };
      accelerometer.onreading = (e) => {
-      // console.log("reading acc")
        socket.emit("ACC_DATA", { x: accelerometer.x, y: accelerometer.y, z: accelerometer.z });
      };
 
@@ -110,7 +107,6 @@ function calibrar() {
 
 
    } catch (err) {
-     console.log(err);
    }
  }
 

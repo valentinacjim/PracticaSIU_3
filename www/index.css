@@ -76,3 +76,10 @@ body {
   overflow: hidden;
 
 }
+
+#qrcode{
+  height: 19.5vw;
+  width: 19.5vw;
+  background-color: #FFF;
+  padding: 1vh;
+}

@@ -8,9 +8,13 @@ const io = require('socket.io')(server, {
     methods: ['GET', 'POST']
     }});
 
-// app.use(express.static(path.join(__dirname, 'public')));
+
+
+var upsideDown = false;
+var shaking = false;
 
 var last_gest;
+
 var lastX = 0;
 var lastY = 0;
 var lastZ = 0;
@@ -19,7 +23,6 @@ var baseRoll;
 var basePitch;
 var baseYaw;
 
-var shaking = false;
 var timer = null;
 
 const options = {
@@ -28,44 +31,41 @@ const options = {
 
 app.use('/', express.static(path.join(__dirname, 'www')));
 
-
-let visSocket;
+let visSocket; //socket para comunicarse con el reproductor (ordenador)
 
 io.on('connection', (socket) => {
   console.log(`socket connected ${socket.id}`);
 
-  socket.on("COM_CONNECTED", (data) => {
-    console.log(data);
+  socket.on("COM_CONNECTED", () => {
     visSocket = socket;
   });
 
+  //recibo datos del dispositivo
   socket.on("ACC_DATA", (data) => {
     let new_data;
     new_data = eval_Position(data);
-    if (visSocket) visSocket.emit("ACC_DATA", new_data);
   });
 
   socket.on("ORIENTATION_DATA", (data) => {
-    //console.log(data);
-    //console.log(eval_Gesture(data))
     let new_data;
     new_data = eval_Gesture(data);
-    if (visSocket) visSocket.emit("ORIENTATION_DATA", new_data);
   });
 
   socket.on("CURRENT_MODE", (data) => {
-    //console.log(data);
     if (visSocket) visSocket.emit("CURRENT_MODE", data);
   });
   socket.on("CALIBRAR", (data) => {
-    // console.log(data.roll, data.pitch, data.yaw);
     baseRoll = data.roll;
     basePitch = data.pitch;
     baseYaw = data.yaw;
   
   });
 
-  setInterval(() => {
+  setInterval(() => { //envío de datos al reproductor
+  if (upsideDown === true) {
+    if (visSocket) visSocket.emit("ACTION", "upside_down");
+    return
+  }
   if (shaking === true) {
     if (visSocket) visSocket.emit("ACTION", "shake"); 
     return
@@ -80,16 +80,20 @@ server.listen(3000, () => {
 
 
 function eval_Position(position) {
-  //cambiar este if de un igual estricto a un rango de valores
+  
   shakeCheck(position);
   if (shaking === true) {
-    return { deltaX: position.x, deltaY: position.y, deltaZ: position.z, text : "shaking" };
+    return;
       }
-  return { deltaX: position.x, deltaY: position.y, deltaZ: position.z, text : "not shaking" };
+  if (position.z < -8) {
+    upsideDown = true;
+    return;
+  }
+  upsideDown = false;
 }
 
 
-function eval_Gesture(angles) {
+function eval_Gesture(angles) { //evalúa el gesto actual según los ángulos de orientación
 
   if ((baseRoll === undefined) || (basePitch === undefined) || (baseYaw === undefined))  {
     baseRoll = angles.roll;
@@ -100,26 +104,26 @@ function eval_Gesture(angles) {
   let roll = angles.roll - baseRoll;
   let pitch = angles.pitch - basePitch;
   let yaw = angles.yaw - baseYaw;
-  console.log(roll, pitch, yaw);
-  if (pitch > 275 && pitch < 355) {
+
+  if ((pitch > 275 && pitch < 355 ) || (pitch > -45 && pitch < -15)) {
     last_gest = "pitch up";
-    return { roll: roll, pitch : pitch, yaw : yaw, text : last_gest}
+    return;
   }
-  if (pitch > 25 && pitch < 80) {
+  if ((pitch > 25 && pitch < 80) || (pitch > -342 && pitch < -275)) { 
     last_gest = "pitch down";
-    return { roll: roll, pitch : pitch, yaw : yaw, text : last_gest}
+    return;
   }
-  if (roll > -84 && roll < -40) {
+  if ((roll > -84 && roll < -40) || (roll > 248 && roll < 320))  {
     last_gest = "roll left";
-    return { roll: roll, pitch : pitch, yaw : yaw, text : last_gest}
+    return;
   }
-  if (roll > -315 && roll < -265) {
+  if ((roll > -315 && roll < -265) || (roll > 45 && roll < 97)) {
     last_gest = "roll right";
-    return { roll: roll, pitch : pitch, yaw : yaw, text : last_gest}
+    return;
   }
 
   last_gest = "resting";
-  return { roll: roll, pitch : pitch, yaw : yaw, text : last_gest} 
+  return;
 }
 
 function shakeCheck (acc){
@@ -132,9 +136,8 @@ function shakeCheck (acc){
        ((deltaY > options.threshold) && (deltaZ > options.threshold))
         ) {
     if (!shaking) {
-        console.log('shake');
         shaking = true;
-        //document.body.style.backgroundColor = "red";
+
         if (timer) {
           clearTimeout(timer);
           timer = null;
@@ -144,8 +147,6 @@ function shakeCheck (acc){
     if (shaking) {
       shaking = false;
       timer = setTimeout(() => {
-        console.log("stop");
-        //document.body.style.backgroundColor = "white";
       }, 500);
     }
   }
