@@ -223,13 +223,13 @@
           <!-- Botón de brillo-->
           <i id="icono_brightness" class="fa-solid fa-sun"></i>
           <div class= "barra_brillo">
-            <input type="range" max ='1' min="0" step = '0.01' class = 'brightness'>
+            <input type="range" max ='2' min="0" step = '0.01' class = 'brightness'>
           </div>
 
           <!-- Botón de contraste-->
           <i id="icono_contrast" class="fa-solid fa-circle-half-stroke"></i>
           <div class= "barra_contraste">
-            <input type="range" max ='1' min="0" step = '0.01' class = 'contrast'>
+            <input type="range" max ='2' min="0" step = '0.01' class = 'contrast'>
           </div>       
 
       </div>
@@ -237,6 +237,16 @@
       <video id="video" src=""></video>
     </div>
     
+  </div>
+
+  <div class="timer">
+    <i class="fa-solid fa-times"></i>
+    <i class="fa-solid fa-circle"></i>
+    <p id="timer">00:00</p>
+    <button id="start">Start</button>
+    <button id="stop">Stop</button>
+    <i class="fa-solid fa-caret-right" id="up"></i>
+    <i class="fa-solid fa-caret-left" id="down"></i>
   </div>
 </body>
 <script src = "computer.js"></script>

@@ -3,7 +3,7 @@
     --primary: #000;
     --secondary: #6d00a2;
     --light: #F3F3F3;
-    --dark: 	#686868;
+    --dark: 	#212121;
   }
   
   html, body {
@@ -267,7 +267,7 @@
   }
 
   #settings{
-    position:absolute;
+    position:fixed;
     top:19px;
     right:60px;
     /* width:25px;
@@ -279,6 +279,7 @@
     align-items: center;
     cursor: pointer;
     font-size: 1.5em;
+
   }
 
   #like{
@@ -406,6 +407,7 @@
   /* orientation; */
   justify-content: center;
   align-items: center;
+  /* color: var(--secondary); */
 
   /* width: 100%; */
   /* margin-top: -1em; */
@@ -416,7 +418,8 @@
   height: 10%;
   border-radius: 5px;
   cursor: pointer;
-  -webkit-appearance: none;
+  background: var(--light);
+  /* color: var(--secondary); */
   /* rotate: 90deg; */
 
 
@@ -457,6 +460,95 @@
   top: 42vh;
   font-size: 3em;
 }
+
+/* TIMER*/
+
+.timer{
+  position:fixed;
+  top:12.5vh;
+  right:12.5vw;
+  width:75vw;
+  height:75vh;
+  background-color: var(--primary);
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  display: none;
+  box-shadow: 0 0 10vh var(--dark);
+}
+
+.timer .fa-times{
+  position:absolute;
+  top:0;
+  left:1vw;
+  /* width:5vw; */
+  /* height:2vh; */
+  /* background-color: rgba(0,0,0,0.5); */
+  z-index: 3;
+  /* display: flex; */
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: 5vw;
+}
+
+.timer .fa-circle{
+  position:absolute;
+  top:7.5vh;
+  left:25vw;
+  font-size: 25vw;
+  /* color: var(--secondary); */
+}
+
+#timer{
+  position: absolute;
+  left: 28.5vw;
+  top: 7.5vh;
+  font-size: 7.5vw;
+  color: var(--primary);
+}
+
+#start, #stop{
+  position: absolute;
+  top: 55vh;
+  left: 30vw;
+  /* transform: translate(-50%, -50%); */
+  font-size: 3vw;
+  color: var(--primary);
+  cursor: pointer;
+  background-color: var(--secondary);
+  /* border-radius: 25px; */
+  padding: 1vw;
+  width: 15vw;
+
+}
+
+#stop{
+  display: none;
+}
+
+#up{
+  position: absolute;
+  font-size: 15vw;
+  top: 20vh;
+  right: 15vw;
+  
+}
+
+#down{
+  position: absolute;
+  font-size: 15vw;
+  top: 20vh;
+  left: 15vw;
+}
+
+
+
+
+
+
 
   /* MEDIA QUERIES */
   

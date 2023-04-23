@@ -1,6 +1,7 @@
 // import jquery from "jquery";
 //import { io } from "socket.io-client";
 
+
 var action;
 var mode;
 var location_to = "home";
@@ -19,6 +20,9 @@ var select_img;
 var brillo = 1;
 var contraste = 1;
 var fav = 0;
+var sleep_timer;
+var timer_end;
+var sleep_time = 0;
 
 const socket = io("http://localhost:3000");
 
@@ -52,6 +56,7 @@ setInterval(() => {
     // console.log(action);
     if(mode=="mando"){
         close_settings();
+        close_timer();
         switch (action) {
             case "pitch up":
                 console.log("pitch up");
@@ -72,7 +77,7 @@ setInterval(() => {
                 if(document.querySelector("#video").src == "http://127.0.0.1:5500/www/computer/computer.html"){
                     section_navigate_left();
                 }
-                else{
+                else{       
                     back();
                 }
                 break;
@@ -121,6 +126,7 @@ setInterval(() => {
             // añadir resaltar botones
             }
     } else if(mode=="ajustes"){
+        close_timer();
         settings();
         switch (action) {
             case "pitch up":
@@ -198,7 +204,29 @@ setInterval(() => {
         }
     } else if(mode=="temporizador"){
         close_settings();
-        switch (action) {}
+        compute_remaining_time();
+        switch (action) {
+            case "pitch up":
+                console.log("pitch up");
+                start_timer();
+                break;
+            case "pitch down":
+                console.log("pitch down");
+                stop_timer();
+                break;
+            case "roll left":
+                if (sleep_time >= 300000) {
+                    sleep_time -= 300000;
+                }else{
+                    sleep_time = 0;
+                }
+                
+
+                break;
+            case "roll right":
+                sleep_time += 300000;
+                break;
+        }
     }
 
 
@@ -249,6 +277,9 @@ function pause() {
 
 function settings() {
     document.querySelector(".video-options").style.display = "block";
+    document.querySelector(".volume").setAttribute("value", document.querySelector("#video").volume);
+    document.querySelector(".brightness").setAttribute("value", brillo);
+    document.querySelector(".contrast").setAttribute("value", contraste);
     pause();
 }
 
@@ -472,3 +503,68 @@ musicPlaying.addEventListener('timeupdate', (e)=>{
         tiempo.innerHTML = currentMin + ":" + currentSec;
     }
 })
+
+function timer_set(time){
+    
+    timer_end = Date.now() + time;
+    sleep_timer = setTimeout(function(){
+        //stop video
+        if (document.querySelector("#video").src != "http://127.0.0.1:5500/www/computer/computer.html"){
+             pause();
+        }
+
+    }, time);
+}
+function compute_remaining_time(){
+    let text = "";
+    let minutes = "";
+    let seconds = "";
+    // console.log(document.querySelector("#stop"));
+    document.querySelector(".timer").style.display = "block";
+    
+    if (timer_end == null){
+        //ms to min : sec
+        minutes = Math.floor((sleep_time % 3600000) / 60000);
+        // console.log(minutes);
+        seconds = Math.floor(((sleep_time % 360000) % 60000) / 1000);
+    }
+    else {
+        console.log("else");
+        text = timer_end - Date.now();
+        //ms to hor min
+        minutes = Math.floor((text % 3600000) / 60000);
+        seconds = Math.floor(((text % 360000) % 60000) / 1000);
+        
+    }
+    if (seconds < 10){
+        seconds = "0" + seconds;
+    }
+    if (minutes < 10){
+        minutes = "0" + minutes;
+    }
+    text = minutes + ":" + seconds;
+    document.querySelector("#timer").innerHTML = text;
+}
+function timer_clr(){
+    clearTimeout(sleep_timer);
+    sleep_time = 0;
+    timer_end = null;
+
+}
+
+
+function close_timer(){
+    document.querySelector(".timer").style.display = "none";
+}
+
+function start_timer(){
+    timer_set(sleep_time);
+    document.querySelector("#start").style.display = "none";
+    document.querySelector("#stop").style.display = "block";
+}
+
+function stop_timer(){
+    timer_clr();
+    document.querySelector("#start").style.display = "block";
+    document.querySelector("#stop").style.display = "none";
+}
